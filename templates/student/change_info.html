@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <div class="container">
+        <form action="" method="POST" >
+            {% csrf_token %}
+            {% crispy change_form %}
+        </form>
+    </div>
+
+{% include 'student/student_base.html' %}
+
+{% endblock content %}

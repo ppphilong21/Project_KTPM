@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/search.css' %}">
+{% endblock style %}
+
+{% block javascript %}
+<script defer>
+
+    $(document).ready(function() {
+
+        // Test dropdown
+        $("#selUser").select2();
+
+        // Read selected option
+        $('#but_read').click(function(){
+            var username = $('#selUser option:selected').text();
+            var userid = $('#selUser').val();
+        
+            $('#result').html("id : " + userid + ", name : " + username);
+        });
+
+        //END test dropdown
+        
+
+        const csrf = $("input[name='csrfmiddlewaretoken']").val()
+        console.log(csrf)
+
+        const sendSearchData = function(student) {
+            $.ajax({
+                type: "POST", 
+                url: "{% url 'search_student_ajax' %}",
+                data: {
+                    'csrfmiddlewaretoken': csrf,
+                    'student': student,
+                },
+                success: (response) =>{
+                    var data = response.data
+                    if (Array.isArray(data)) {
+                        $("#results-box").html("")
+                        for (var i=0; i < data.length; i++){
+                            if (i > 2) {
+                                break;
+                            }
+                            $("#results-box").append(
+                            `<div class='item-list'><div class='row mt-2 mb-2'><div class='col-10'><p>${data[i].name}</p></div></div></div>`
+                            );
+                            console.log(data)
+                            
+                        }
+
+                        $(".item-list").click(function() {
+                            var data = $(this).text()
+                            var added_list = $('#results-click').text().split(",")
+                            console.log(added_list);
+
+                            if (added_list.includes(data)) {
+                                console.log('exist');
+                            } else {
+                                console.log($('#results-click').val())
+                                if ($('#results-click').text().length === 0){
+                                    $('#results-click').append(
+                                    `${data}`
+                                    )
+                                }
+                                else {
+                                    $('#results-click').append(
+                                        `, ${data}`
+                                    )
+                                }
+                            }
+
+                            $(".close").click(function(){
+                                $(this).parent().remove()
+                            })
+                        })
+                    }else{
+                        $("#results-box").html("")
+                        if ($("#search-input").val().length > 0) {
+                            $("#results-box").append(`<b>${data}</b>`)
+                        } else {
+                            $("#results-box").addClass("not-visible");
+                        }
+                    }
+
+                    
+                },
+                error: (error) => {
+                    console.log(error)
+                } 
+            })
+        }
+
+        $("#search-input").focus(function(){
+            $('#search-input').keyup(function(e){
+                if ($("#results-box").hasClass("not-visible"))
+                {
+                    $("#results-box").removeClass("not-visible")
+                }
+                sendSearchData(e.target.value)
+            })
+        })
+
+        $("#search-input").focusout(function(){
+            if ($("#search-input").val().length == 0){
+                $("#results-box").addClass("not-visible");
+            }
+        })
+
+        
+    });   
+</script>
+
+{% endblock javascript %}
+
+{% block content %}
+
+<!-- search with ajax testing    -->
+<div class="w-100 text-center">
+    <!--id="search-form"--> 
+
+    <form autocomplete='off' method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <input type="text" id="search-input" class="search form-control w-50 offset-3" placeholder="Search..">
+        </div>
+        
+    </form>
+    <div id="results-box" class="result-card not-visible">
+
+    </div>
+</div>
+<div class="container">
+    <div class="text-light row" id='results-click'></div>
+</div>
+
+<!-- End search -->
+{% include 'teacher/teacher_base.html' %}
+
+{% endblock content %}

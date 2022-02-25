@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <section class="bg-dark text-light text-center text-sm-start position-relative" >
+        <div class="container p-5">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <div class="text-left">
+                    <h1>Bring <span class="text-warning"> the best</span> to you</h1>
+                    <p class="lead my-4">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. A perspiciatis, nam voluptas, atque error dolores illo neque consequuntur quaerat iste porro? Accusantium quidem dolor iste sapiente odit alias deserunt nobis.
+                    </p>
+                    <a href="{% url 'login' %}">
+                        <button type="button" class="btn btn-primary btn-lg">
+                            ĐĂNG NHẬP
+                        </button>
+                    </a>
+                </div>
+                <img class="img-fluid w-50 d-none d-sm-block" src="{% static '/logo/Clip_Dancer_transparent_by_Icons8.gif' %}" alt="image"/>
+            </div>
+        </div>
+    </section>
+
+
+
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        
+    
+        
+    </script>
+
+{% endblock javascript %}
+
+
+<!-- Modal -->
+
+    <!-- Button trigger modal -->
+    <!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modelLogin" id='modalButton'>
+    Sign in
+    </button> -->
+
+<!-- <div class="modal fade" id="modelLogin" tabindex="-1" role="dialog" aria-labelledby="modelSignin" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Sign in</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="lead">Please enter your <span class="text-primary">Email</span> and <span class="text-primary">Password</span></p>
+                <span class='error_login text-danger' style="display: none;" >Tài khoản hoặc mật khẩu không chính xác</span>
+                <form method="POST" action="{% url 'home' %}" id="loginForm">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="Email" class="col-form-label">
+                            Email
+                        </label>
+                        <input type="text" name="email" class="form-control" placeholder="Email" id='email'/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="col-form-label">Password</label>
+                        <input type="password" name="password" class="form-control" placeholder="Password" id='password' />
+                    </div>
+                    <div class="container">
+                        <div class="row justify-content-end">
+                            <p class='col-sm-4 mt-2'><a href="{% url 'forget_password' %}" class="blue-text">Forgot Password?</a></p>
+                            <div class="col-sm-3 justify-content-end">
+                                <button type="submit" value="Login" class="btn btn-primary" id='login_button' >Login</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+

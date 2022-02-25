@@ -1,0 +1,148 @@
+ /* data.forEach(student => {
+                            var item_list_max = $('item-list').length()
+                            if (item_list_max === 2){
+                                break; 
+                            }   
+                            $("#results-box").append(
+                            `<div class='item-list'><div class='row mt-2 mb-2'><div class='col-10'><p>${student.name}</p></div></div></div>`
+                            );
+                        }) */
+
+
+
+`<div class="panel panel-default added-list p-1 m-2" style="border:solid 2px; border-radius: 5%">${data}<button type="button" class="close ml-2" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>`
+
+<!--
+                <div class="col-md-6 d-sm-none d-md-block mt-5 picture_css">
+                    <img src="{% static 'logo/Clip_recruting_ad_transparent_by_Icons8.gif' %}" class="img-responsive" alt="" width="90%">
+                </div>
+                <div class="col-md-6 col-sm-12  mt-5">
+                        <h1 class="text-warning text-center mb-md-5">SIGN IN</h1>
+                        <form method="POST" id="loginForm">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                {{form.email.label_tag}}
+                                <input type='text' name="{{form.email.html_name}}" class="form-control" placeholder="Email" id="{{ form.email.id_for_label }}"/>
+                            </div>
+                            <div class="mb-3">
+                                {{form.password.label_tag}}
+                                <input type='password' name="{{form.password.html_name}}" class="form-control " placeholder="Password" id="{{ form.password.id_for_label }}"/>
+
+                            </div>
+            -->     
+
+
+    <!-- <div class="container">
+
+        <div class="row">
+            <div class="col-6 mt-5 d-md-block d-sm-none ">
+                <img src="{% static 'logo/Clip_recruting_ad_transparent_by_Icons8.gif' %}" class="img-responsive" alt="" width="90%">
+            </div>
+            <div class="col-md-6 col-sm-12 mt-5">
+                <h1 class="text-warning text-center mb-md-5">SIGN IN</h1>
+                <form method="POST" id="loginForm">
+                    {% csrf_token %}
+                    <span class='error text-danger' id='error'></span>
+                    <div class="mb-3">
+                        {{form.email.label_tag}}
+                        <input type='text' name="{{form.email.html_name}}" class="form-control" placeholder="Email" id="{{ form.email.id_for_label }}"/>
+                    </div>
+                    <div class="mb-3">
+                        {{form.password.label_tag}}
+                        <input type='password' name="{{form.password.html_name}}" class="form-control " placeholder="Password" id="{{ form.password.id_for_label }}"/>
+                    </div>
+                    
+                    <div class=" justify-content-end">
+                            <div class=" justify-content-end">
+                                <button type="submit" value="Login" class="btn btn-primary float-right" id='login_button' >Login</button>
+                            </div>
+                            
+                            <div class=' mt-2'><a href="{% url 'forget_password' %}" class="blue-text">Forgot Password?</a></div>
+                    </div>
+                </form>
+                </div>
+        </div>   
+    </div>  -->
+
+
+
+    /*
+        var tbody = $(".table-condensed tbody");
+    if (tbody.children().length === 0) {
+        
+        $("#button-save").css("display", "none");
+     }
+    
+    $("#search_btn").click(function() {
+       
+        
+
+            var input_value = $("#input_value").val();
+            if (input_value === "" // bị trùng ){
+                $("#text-message").removeClass("d-none");
+                $("#text-message").html("Không có học phần này");
+             }
+            else {
+                for (lopTC in lopTinChitrongKi) {
+                    if (input_value === lopTC.lopTinChi.code) {
+                        console.log(1);
+                        $("#text-message").addClass("d-none");
+                        var _tr = '<tr><th scope="row" class="td-count">' + lopTC.lopTinChi.code + '</th> <td class="td-value">'+ input_value +'</td>  <td class="td-value">'+ input_value +'</td> <td class="td-value">'+ input_value +'</td> <td class="td-value">'+ input_value +'</td> <td class="td-value">'+ '<i class="fas fa-trash" ></i>' +'</td></tr>' ;
+                        $("tbody").append(_tr);
+                        if (tbody.children().length != 0) {
+                            $("#button-save").css("display", "block");
+                            $(".fa-trash").css("cursor", "pointer");
+                        }
+                    }
+                }
+                
+            }
+            $("tbody").on("click",".fa-trash", function(){    
+                $(this).parents("tr").fadeOut(200);   
+            })
+    })
+    });
+    */
+
+
+
+    <!--
+                <div class="row">
+                <div class="col-lg-3 col-sm-12">
+                   <p class="text-warning " style=" font-size:1.2rem;height: 2.4rem;line-height: 2.4rem;">  Tra cứu học phần đăng ký </p>
+                </div>
+                <div class="col-lg-6 col-sm-12 mb-sm-3">
+                     <input type="text" class="" placeholder="Nhập học phần muốn đăng ký" id="input_value">
+                </div>
+                <div class="col-lg-3 col-sm-12">
+                    <button type="button" class="btn btn-primary" id="search_btn">Search</button>
+                </div> 
+            </div>
+            <div class="row">
+             <div class="col-lg-12 mt-3">
+               <div class="table-responsive-sm">
+                 <p class="text-center text-danger  d-none" id="text-message"></p>
+                 <table class="table table-bordered table-condensed text-light ">
+                   <thead>
+                     <tr>
+                       <th scope="col">#</th>
+                       <th scope="col">Mã HP</th>
+                       <th scope="col">Tên môn học</th>
+                       <th scope="col">Ngày đăng ký</th>
+                       <th scope="col">TT đăng ký</th>
+                       <th scope="col"><i class="fas fa-trash"></i></th>
+                     </tr>
+                   </thead>
+                   <tbody>
+    
+                           
+                   </tbody>
+                 </table>
+               </div>
+               
+             </div>  
+                 
+           </div>
+           <input type='submit' id="button-save" class="btn btn-success float-right " value="SEND" >
+
+-->

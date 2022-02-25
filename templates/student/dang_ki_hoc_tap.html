@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/dangKyHocPhan.css' %}">
+{% endblock style %}
+
+{% block javascript %}
+
+<script defer>
+    $(document).ready(function() {
+        const csrf = $("input[name='csrfmiddlewaretoken']").val()
+        console.log(csrf)
+
+        
+
+
+        const sendlopTinChiData = function(lopTinChiInput, lopDaDangKi) {
+            $.ajax({
+                type: "POST", 
+                url: "{% url 'add_lopTinChi_ajax' %}",
+                data: {
+                    'csrfmiddlewaretoken': csrf,
+                    'lopTinChiInput': lopTinChiInput,
+                    'lopDaDangKi': lopDaDangKi,
+                },
+                success: (response) =>{
+                    var data = response.data
+                    if (data == "Invalid"){
+                        $(".error-lopTinChi").html("Lớp tín chỉ không hợp lệ")
+                        setTimeout(function(){
+                            $(".error-lopTinChi").html("");
+                        }, 2000)
+                    }
+                    else if (data == "Invalid hocPhan")
+                    {
+                       $(".error-lopTinChi").html("Trùng học phần")
+                        setTimeout(function(){
+                            $(".error-lopTinChi").html("");
+                        }, 2000) 
+                    }
+                    else{
+                        var lopDangKiText = $(".lopTinChiDangKiCode").text()
+                        var lopDaDangKi = lopDangKiText.split(/(\d{6})/)
+
+                        if (lopDaDangKi.includes(String(data.code))){
+                            $(".error-lopTinChi").html("Lớp tồn tại")
+                            setTimeout(function(){
+                                $(".error-lopTinChi").html("");
+                            }, 2000)
+                        }
+                        else{
+                            
+                            $('tbody').append(
+                            `
+                                <tr class='input-lopTinChi'>
+                                    <td scope="row" class='lopTinChiDangKiCode'>${data.code}</td>
+                                    <input type='hidden' value='${data.code}' name='lopTinChiCode'>                                     
+                                    <td class='hocPhanDangKi'>${data.hocPhan}</td>
+                                    <td>${data.teacher}</td>
+                                    <td>${data.thoiGian}</td>
+                                    <td>${data.day}</td>
+                                    <td>${data.week}</td>
+                                    <td> 
+                                        <input type="checkbox" value="${data.code}" name='deleteBox'>
+                                    </td>
+                                </tr>
+                            `
+                            )
+                        }
+                    }
+                },
+                error: (error) => {
+                    console.log(error)
+                } 
+            })
+        }
+
+        $("#btn-add_lopTinChi").click(function(){
+            var lopDangKiText = $(".lopTinChiDangKiCode").text()
+            var lopDaDangKi = lopDangKiText.split(/(\d{6})/)
+            console.log(lopDaDangKi)
+            sendlopTinChiData($("#lopTinChi").val(), lopDaDangKi)
+        })
+
+    }) 
+
+</script>
+
+{% endblock javascript %}
+
+
+{% block content %}
+<div class="page-content p-5 position-relative" id="content">
+
+    <div class=" mt-2">
+            <h3 class="text-warning">
+                <i class="far fa-calendar-plus me-1 text-primary fa-fw" style="width: 2.25em;"></i>
+                Đăng ký học phần  
+            </h3>
+            
+            
+        <form action="" method="POST" class="mt-4">
+            {% csrf_token %}
+            
+            <div class="row mt-2">
+                <div class="col-lg-2 col-sm-12 w-100 d-block m-auto">
+                    <h5 class="text-warning">Nhập lớp tín chỉ:</h5>
+                </div>
+                <div class="col-lg-8 col-sm-12 w-100">
+                    <input type="text" class='form-control' placeholder='Thêm lớp tín chỉ' id='lopTinChi'>
+                </div>
+                <div class="col-lg-2 col-sm-12">
+                    <button type="button" id="btn-add_lopTinChi" class="btn btn-primary btn-block">Add</button>
+                </div>
+                <span class='error-lopTinChi ml-3 text-danger'>
+
+                </span>
+            </div>
+            
+            <table class="table table-bordered text-light mt-4 table-lopTinChiDangKi" >
+
+                <thead>
+                    <tr>
+                        <th>Mã lớp</th>
+                        <th>Học phần</th>
+                        <th>Giáo viên giảng dạy</th>
+                        <th>Thời gian</th>
+                        <th>Thứ</th>
+                        <th>Tuần</th>
+                        <th>Xóa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lop in current_lopTinChi %}
+                    <tr class='input-lopTinChi'>
+                        <td scope="row" class='lopTinChiDangKiCode'>{{lop.lopTinChi.code}}</td>
+                        <input type='hidden' value="{{lop.lopTinChi.code}}" name='lopTinChiCode'> 
+                        <td class='hocPhanDangKi'>{{lop.lopTinChi.hocPhan}}</td>
+                        <td>{{lop.teacher.getfullname}}</td>
+                        <td>{{lop.timing}}</td>
+                        <td>{{lop.timetable.day}}</td>
+                        <td>{{lop.timetable.display_week}}</td>
+                        <td> 
+                            <input type="checkbox" value="{{lop.lopTinChi.code}}" name='deleteBox'>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <input type="hidden" class='count-lopDangKi' value="0" name='count_lopDangKi'>
+            </table>
+
+            <input class='btn btn-success mt-4 float-right' type="submit" value="SEND">
+        </form>
+    </div>
+</div>
+
+{% include 'student/student_base.html' %}
+
+{% endblock %}
+

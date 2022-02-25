@@ -1,0 +1,77 @@
+{% extends 'base.html' %} 
+{% load static%}
+{% block content %}
+
+
+<style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+  
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+</style>
+
+
+
+<div class="page-content p-5 position-relative" id="content">
+
+
+    <div class="row mt-4">
+      <h4 class="text-warning">
+        <i class="fas fa-user-graduate me-1 text-primary fa-fw" style="width: 2.25em;"></i>
+         Lớp: {{ lopInfo.lopTinChi.hocPhan }} -  Mã lớp: {{ lopInfo.lopTinChi.code}}
+      </h4>
+      
+    
+      <div class="col-lg-12 mt-5">
+        <div class="row">
+          <div class="col-lg-12 mt-3">
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ changeDiemForm.management_form }}
+                <table class="table table-bordered table-responsive-sm">
+                    <thead>
+                        <tr>
+                            <th class="text-warning">Họ và tên</th>
+                            <th class="text-warning">Mã số sinh viên</th>
+                            <th class="text-warning">Điểm giữa kì</th>
+                            <th class="text-warning">Điểm cuối kì</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for form in changeDiemForm %}
+                            <tr>
+                                <td><input class="bg-dark text-white border-0" type="text" name="{{form.sinh_vien.html_name}}" value="{{form.sinh_vien.value}}" readonly maxlength="15" id="{{form.sinh_vien.id_for_label}}"></td>
+                                <td><input class="bg-dark text-white border-0" type="text" name="{{form.code.html_name}}" value="{{form.code.value}}" readonly maxlength="15" id="{{form.code.id_for_label}}"></td>
+                                <td ><input class="w-100" type="number" placeholder="Enter score" name="{{form.giua_ki.html_name}}" value="{{form.giua_ki.value|floatformat:-2}}"  min="0" max="10" step="0.01" id="{{form.giua_ki.id_for_label}}"></td>
+                                <td ><input class="w-100 " type="number" placeholder="Enter score" name="{{form.cuoi_ki.html_name}}" value="{{form.cuoi_ki.value|floatformat:-2}}"  min="0" max="10" step="0.01" id="{{form.cuoi_ki.id_for_label}}"></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            <input class="float-right input-btn" type="submit" value="Save">
+            </form>
+            
+            
+          </div>  
+   
+        </div>
+        
+      </div>
+     
+      
+      
+    </div>
+  </div>
+<ul>
+
+   
+
+</ul>
+
+{% include "teacher/teacher_base.html" %} 
+{% endblock content %}
